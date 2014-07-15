@@ -47,7 +47,7 @@ func main() {
     if err != nil {
             panic(err)
     }
-    info, err := riago.RConn(c).ServerInfo()
+    info, err := riago.Riak(c).ServerInfo()
     if err != nil {
             panic(err)
     }

@@ -15,7 +15,7 @@ type Conn struct {
 	readTimeout  time.Duration
 }
 
-func RConn(c *pooly.Conn) *Conn {
+func Riak(c *pooly.Conn) *Conn {
 	return c.Interface().(*Conn)
 }
 

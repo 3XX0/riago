@@ -55,14 +55,14 @@ func (d *Driver) Dial(address string) (*pooly.Conn, error) {
 }
 
 func (d *Driver) Close(conn *pooly.Conn) {
-	c := RConn(conn)
+	c := Riak(conn)
 	if c != nil {
 		c.conn.Close()
 	}
 }
 
 func (d *Driver) TestOnBorrow(conn *pooly.Conn) error {
-	c := RConn(conn)
+	c := Riak(conn)
 	if !c.lastChecked.IsZero() {
 		if t := time.Now().Sub(c.lastChecked); t < d.testInterval {
 			return nil
