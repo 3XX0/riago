@@ -3,8 +3,11 @@ package riago
 import (
 	"github.com/3XX0/pooly"
 	"net"
+	"regexp"
 	"time"
 )
+
+var hostport = regexp.MustCompile("[?.*]?:.*")
 
 type Driver struct {
 	connTimeout  time.Duration
@@ -36,6 +39,10 @@ func (d *Driver) SetTestInterval(t time.Duration) {
 func (d *Driver) Dial(address string) (*pooly.Conn, error) {
 	var c net.Conn
 	var err error
+
+	if !hostport.MatchString(address) {
+		address += ":8087" // default riak pbc port
+	}
 
 	if d.connTimeout > 0 {
 		c, err = net.DialTimeout("tcp", address, d.connTimeout)
