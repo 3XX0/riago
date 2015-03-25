@@ -6,52 +6,6 @@ import (
 	"code.google.com/p/goprotobuf/proto"
 )
 
-const (
-	MsgRpbErrorResp              = 0
-	MsgRpbPingReq                = 1
-	MsgRpbPingResp               = 2
-	MsgRpbGetClientIdReq         = 3
-	MsgRpbGetClientIdResp        = 4
-	MsgRpbSetClientIdReq         = 5
-	MsgRpbSetClientIdResp        = 6
-	MsgRpbGetServerInfoReq       = 7
-	MsgRpbGetServerInfoResp      = 8
-	MsgRpbGetReq                 = 9
-	MsgRpbGetResp                = 10
-	MsgRpbPutReq                 = 11
-	MsgRpbPutResp                = 12
-	MsgRpbDelReq                 = 13
-	MsgRpbDelResp                = 14
-	MsgRpbListBucketsReq         = 15
-	MsgRpbListBucketsResp        = 16
-	MsgRpbListKeysReq            = 17
-	MsgRpbListKeysResp           = 18
-	MsgRpbGetBucketReq           = 19
-	MsgRpbGetBucketResp          = 20
-	MsgRpbSetBucketReq           = 21
-	MsgRpbSetBucketResp          = 22
-	MsgRpbMapRedReq              = 23
-	MsgRpbMapRedResp             = 24
-	MsgRpbIndexReq               = 25
-	MsgRpbIndexResp              = 26
-	MsgRpbSearchQueryReq         = 27
-	MsgRbpSearchQueryResp        = 28
-	MsgRpbResetBucketReq         = 29
-	MsgRpbResetBucketResp        = 30
-	MsgRpbCSBucketReq            = 40
-	MsgRpbCSBucketResp           = 41
-	MsgRpbCounterUpdateReq       = 50
-	MsgRpbCounterUpdateResp      = 51
-	MsgRpbCounterGetReq          = 52
-	MsgRpbCounterGetResp         = 53
-	MsgRpbYokozunaIndexGetReq    = 54
-	MsgRpbYokozunaIndexGetResp   = 55
-	MsgRpbYokozunaIndexPutReq    = 56
-	MsgRpbYokozunaIndexDeleteReq = 57
-	MsgRpbYokozunaSchemaGetReq   = 58
-	MsgRpbYokozunaSchemaGetResp  = 59
-	MsgRpbYokozunaSchemaPutReq   = 60
-)
 
 var (
 	ErrInvalidResponseBody = errors.New("invalid response body")

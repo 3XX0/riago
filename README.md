@@ -17,12 +17,12 @@ Build
 
 For Riak version 2.0:
 ```sh
-go get -tags "2.0.0.16" github.com/3XX0/riago
+go get -tags "2.0" github.com/3XX0/riago
 ````
 
 For Riak version 1.4:
 ```sh
-go get -tags "1.4.4.0" github.com/3XX0/riago
+go get -tags "1.4" github.com/3XX0/riago
 ````
 
 Example

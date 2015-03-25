@@ -11,7 +11,7 @@ PROTO = riak_dt.proto \
 GOFILES	= $(PROTO:.proto=.pb.go)
 
 define TEMPLATE
-// +build $(VERSION)
+// +build $(shell echo $(VERSION) | cut -d'.' -f1,2)
 
 package riago
 

@@ -1,4 +1,4 @@
-// +build 2.0.0.17
+// +build 2.0
 
 package riago
 

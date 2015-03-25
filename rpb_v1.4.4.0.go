@@ -1,4 +1,4 @@
-// +build 1.4.4.0
+// +build 1.4
 
 package riago
 
