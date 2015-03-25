@@ -4,7 +4,23 @@ import (
 	"bytes"
 )
 
-// Perform a Riak Map Reduce request. Returns multiple map-reduce responses.
+// Performs a Riak Index (2i) request.
+// The protobufs say that it will return multiple responses but it in fact does not.
+func (c *Conn) Index(req *RpbIndexReq) (resp *RpbIndexResp, err error) {
+	resp = new(RpbIndexResp)
+	err = c.do(MsgRpbIndexReq, req, resp)
+	return
+}
+
+// Performs a Riak Search Query request.
+func (c *Conn) SearchQuery(req *RpbSearchQueryReq) (resp *RpbSearchQueryResp, err error) {
+	resp = new(RpbSearchQueryResp)
+	err = c.do(MsgRpbSearchQueryReq, req, resp)
+	return
+}
+
+// Performs a Riak Map Reduce request.
+// Returns multiple map-reduce responses.
 func (c *Conn) MapRed(req *RpbMapRedReq) ([]*RpbMapRedResp, error) {
 	var resps []*RpbMapRedResp
 

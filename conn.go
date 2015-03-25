@@ -58,14 +58,3 @@ func (c *Conn) do(code byte, req proto.Message, resp proto.Message) error {
 	}
 	return c.response(resp)
 }
-
-func (c *Conn) Ping() error {
-	return c.do(MsgRpbPingReq, nil, nil)
-}
-
-// Performs a Riak Server info request.
-func (c *Conn) ServerInfo() (resp *RpbGetServerInfoResp, err error) {
-	resp = new(RpbGetServerInfoResp)
-	err = c.do(MsgRpbGetServerInfoReq, nil, resp)
-	return
-}
