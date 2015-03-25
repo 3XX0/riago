@@ -6,63 +6,42 @@ import (
 	"code.google.com/p/goprotobuf/proto"
 )
 
-
-var (
-	ErrInvalidResponseBody = errors.New("invalid response body")
-	ErrInvalidResponseCode = errors.New("invalid response code")
-	ErrInvalidRequestCode  = errors.New("invalid request code")
-)
+var ErrInvalidResponseCode = errors.New("invalid response code")
 
 // Encodes a request code and proto structure into a message byte buffer.
-func encode(code byte, req proto.Message) (buf []byte, err error) {
-	var reqbuf []byte
-
+func encode(code uint8, req proto.Message) (buf []byte, err error) {
 	if req != nil {
-		reqbuf, err = proto.Marshal(req)
+		buf, err = proto.Marshal(req)
 		if err != nil {
 			return
 		}
 	}
-
-	size := int32(len(reqbuf) + 1)
-	buf = []byte{byte(size >> 24), byte(size >> 16), byte(size >> 8), byte(size), code}
-	buf = append(buf, reqbuf...)
-
+	size := uint32(len(buf) + 1)
+	header := []byte{byte(size >> 24), byte(size >> 16), byte(size >> 8), byte(size), code}
+	buf = append(header, buf...)
 	return
 }
 
-// Decodes a message byte buffer into a proto response, error code or nil
+// Decodes a message byte buffer into a proto response, error code or nil.
 // Resulting object depends on response type.
-func decode(buf []byte, resp proto.Message) (err error) {
-	var respbuf []byte
-
+func decode(buf []byte, resp proto.Message) error {
 	if len(buf) < 1 {
 		return ErrInvalidResponseCode
 	}
+	code := uint8(buf[0])
+	buf = buf[1:]
 
-	code := buf[0]
-
-	if len(buf) > 1 {
-		respbuf = buf[1:]
-	} else {
-		respbuf = make([]byte, 0)
+	if code == MsgRpbErrorResp {
+		resp = new(RpbErrorResp)
 	}
-
-	if code < 0 || code > 60 {
-		return ErrInvalidResponseCode
+	if resp == nil {
+		return nil
 	}
+	err := proto.Unmarshal(buf, resp)
 
-	switch code {
-	case MsgRpbErrorResp:
-		errResp := &RpbErrorResp{}
-		if err = proto.Unmarshal(respbuf, errResp); err == nil {
-			err = errors.New(string(errResp.Errmsg))
-		}
-	case MsgRpbPingResp, MsgRpbSetClientIdResp, MsgRpbSetBucketResp, MsgRpbDelResp:
-		resp = nil
-	default:
-		err = proto.Unmarshal(respbuf, resp)
+	e, ok := resp.(*RpbErrorResp)
+	if ok && err == nil {
+		err = errors.New(string(e.Errmsg))
 	}
-
-	return
+	return err
 }
