@@ -4,10 +4,10 @@ const (
 	MsgRpbErrorResp         = 0
 	MsgRpbPingReq           = 1
 	MsgRpbPingResp          = 2
-	MsgRpbGetClientIdReq    = 3 // XXX Deprecated
-	MsgRpbGetClientIdResp   = 4 // XXX Deprecated
-	MsgRpbSetClientIdReq    = 5 // XXX Deprecated
-	MsgRpbSetClientIdResp   = 6 // XXX Deprecated
+	MsgRpbGetClientIdReq    = 3 // XXX Deprecated in v1.4
+	MsgRpbGetClientIdResp   = 4 // XXX Deprecated in v1.4
+	MsgRpbSetClientIdReq    = 5 // XXX Deprecated in v1.4
+	MsgRpbSetClientIdResp   = 6 // XXX Deprecated in v1.4
 	MsgRpbGetServerInfoReq  = 7
 	MsgRpbGetServerInfoResp = 8
 	MsgRpbGetReq            = 9
@@ -30,4 +30,10 @@ const (
 	MsgRpbIndexResp         = 26
 	MsgRpbSearchQueryReq    = 27
 	MsgRbpSearchQueryResp   = 28
+	MsgRpbCSBucketReq       = 40 // Riak CS only
+	MsgRpbCSBucketResp      = 41 // Riak CS only
+	MsgRpbCounterUpdateReq  = 50 // Counters v1.4
+	MsgRpbCounterUpdateResp = 51 // Counters v1.4
+	MsgRpbCounterGetReq     = 52 // Counters v1.4
+	MsgRpbCounterGetResp    = 53 // Counters v1.4
 )
