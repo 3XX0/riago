@@ -8,14 +8,14 @@ import (
 // The protobufs say that it will return multiple responses but it in fact does not.
 func (c *Conn) Index(req *RpbIndexReq) (resp *RpbIndexResp, err error) {
 	resp = new(RpbIndexResp)
-	err = c.do(MsgRpbIndexReq, req, resp)
+	err = c.do(MsgRpbIndexReq, MsgRpbIndexResp, req, resp)
 	return
 }
 
 // Performs a Riak Search Query request.
 func (c *Conn) SearchQuery(req *RpbSearchQueryReq) (resp *RpbSearchQueryResp, err error) {
 	resp = new(RpbSearchQueryResp)
-	err = c.do(MsgRpbSearchQueryReq, req, resp)
+	err = c.do(MsgRpbSearchQueryReq, MsgRbpSearchQueryResp, req, resp)
 	return
 }
 
@@ -29,7 +29,7 @@ func (c *Conn) MapRed(req *RpbMapRedReq) ([]*RpbMapRedResp, error) {
 	}
 	for {
 		resp := new(RpbMapRedResp)
-		if err := c.response(resp); err != nil {
+		if err := c.response(MsgRpbMapRedResp, resp); err != nil {
 			return nil, err
 		}
 		resps = append(resps, resp)

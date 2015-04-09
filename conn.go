@@ -33,7 +33,7 @@ func (c *Conn) request(code uint8, req proto.Message) error {
 }
 
 // Read and decode a response from the Riak server.
-func (c *Conn) response(resp proto.Message) error {
+func (c *Conn) response(expect uint8, resp proto.Message) error {
 	if c.readTimeout > 0 {
 		c.conn.SetReadDeadline(time.Now().Add(c.readTimeout))
 	}
@@ -49,12 +49,12 @@ func (c *Conn) response(resp proto.Message) error {
 		return err
 	}
 
-	return decode(buf, resp)
+	return decode(expect, buf, resp)
 }
 
-func (c *Conn) do(code uint8, req proto.Message, resp proto.Message) error {
+func (c *Conn) do(code, expect uint8, req, resp proto.Message) error {
 	if err := c.request(code, req); err != nil {
 		return err
 	}
-	return c.response(resp)
+	return c.response(expect, resp)
 }

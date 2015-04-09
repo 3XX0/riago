@@ -24,7 +24,7 @@ func encode(code uint8, req proto.Message) (buf []byte, err error) {
 
 // Decodes a message byte buffer into a proto response, error code or nil.
 // Resulting object depends on response type.
-func decode(buf []byte, resp proto.Message) error {
+func decode(expect uint8, buf []byte, resp proto.Message) error {
 	if len(buf) < 1 {
 		return ErrInvalidResponseCode
 	}
@@ -33,6 +33,8 @@ func decode(buf []byte, resp proto.Message) error {
 
 	if code == MsgRpbErrorResp {
 		resp = new(RpbErrorResp)
+	} else if code != expect {
+		return ErrInvalidResponseCode
 	}
 	if resp == nil {
 		return nil
