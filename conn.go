@@ -20,7 +20,7 @@ func Riak(c *pooly.Conn) *Conn {
 }
 
 // Encode and write a request to the Riak server.
-func (c *Conn) request(code byte, req proto.Message) error {
+func (c *Conn) request(code uint8, req proto.Message) error {
 	buf, err := encode(code, req)
 	if err != nil {
 		return err
@@ -38,13 +38,13 @@ func (c *Conn) response(resp proto.Message) error {
 		c.conn.SetReadDeadline(time.Now().Add(c.readTimeout))
 	}
 
-	sizebuf := make([]byte, 4)
-	if _, err := io.ReadFull(c.conn, sizebuf); err != nil {
+	buf := make([]byte, 4)
+	if _, err := io.ReadFull(c.conn, buf); err != nil {
 		return err
 	}
+	size := uint32(buf[0])<<24 | uint32(buf[1])<<16 | uint32(buf[2])<<8 | uint32(buf[3])
 
-	size := int(sizebuf[0])<<24 + int(sizebuf[1])<<16 + int(sizebuf[2])<<8 + int(sizebuf[3])
-	buf := make([]byte, size)
+	buf = make([]byte, size)
 	if _, err := io.ReadFull(c.conn, buf); err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func (c *Conn) response(resp proto.Message) error {
 	return decode(buf, resp)
 }
 
-func (c *Conn) do(code byte, req proto.Message, resp proto.Message) error {
+func (c *Conn) do(code uint8, req proto.Message, resp proto.Message) error {
 	if err := c.request(code, req); err != nil {
 		return err
 	}
