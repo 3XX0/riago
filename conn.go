@@ -1,7 +1,7 @@
 package riago
 
 import (
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 	"github.com/3XX0/pooly"
 	"io"
 	"net"
